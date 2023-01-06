@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/tebeka/selenium"
+	"net/http"
 	"strings"
 )
 
@@ -57,5 +58,9 @@ func main() {
 		})
 	}
 
-	fmt.Println(paradas)
+	newJson, _ := json.Marshal(paradas)
+	_, err = http.Post("https://ntfy.sh/information_for_sebas", "application/json", strings.NewReader(string(newJson)))
+	if err != nil {
+		panic(err)
+	}
 }
