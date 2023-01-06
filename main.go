@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/tebeka/selenium"
+	"strings"
 )
 
 const (
@@ -9,6 +11,12 @@ const (
 	port         = 8080
 	chromeDriver = "./chromedriver.exe"
 )
+
+type Parada struct {
+	Linea   string   `json:"linea"`
+	Minutos []string `json:"minutos"`
+	Destino string   `json:"destino"`
+}
 
 func main() {
 	service, err := selenium.NewSeleniumService(seleniumPath, port, selenium.ChromeDriver(chromeDriver))
@@ -23,23 +31,31 @@ func main() {
 	}
 	defer wd.Quit()
 
-	err = wd.Get("https://busmadrid.welbits.com/stop/2001")
+	err = wd.Get("https://busmadrid.welbits.com/stop/3042")
 	if err != nil {
 		panic(err)
 	}
 
-	var elements []selenium.WebElement
+	var filas []selenium.WebElement
 	err = wd.Wait(func(wd selenium.WebDriver) (bool, error) {
-		elements, err = wd.FindElements(selenium.ByCSSSelector, "div[class='StopPageView__time___1Pt8j']")
+		filas, err = wd.FindElements(selenium.ByXPATH, "//table/tbody/tr")
 		if err != nil {
 			return false, err
 		} else {
-			return len(elements) > 0, nil
+			return len(filas) > 0, nil
 		}
 	})
 
-	for _, element := range elements {
-		text, _ := element.Text()
-		println(text)
+	var paradas []Parada
+	for _, el := range filas {
+		dato, _ := el.Text()
+		rs := strings.Split(dato, "\n")
+		paradas = append(paradas, Parada{
+			Linea:   rs[0],
+			Minutos: []string{rs[1], rs[2]},
+			Destino: rs[3],
+		})
 	}
+
+	fmt.Println(paradas)
 }
