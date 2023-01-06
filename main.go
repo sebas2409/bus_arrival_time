@@ -10,7 +10,7 @@ import (
 
 const (
 	seleniumPath = "./selenium-server-standalone-3.14.0.jar"
-	port         = 8080
+	port         = 4444
 	chromeDriver = "./chromedriver"
 	busStop      = "3042"
 )
@@ -28,7 +28,7 @@ func main() {
 	}
 	defer service.Stop()
 
-	wd, err := selenium.NewRemote(selenium.Capabilities{"browserName": "chrome"}, "http://localhost:8080/wd/hub")
+	wd, err := selenium.NewRemote(selenium.Capabilities{"browserName": "chrome"}, "http://localhost:4444/wd/hub")
 	if err != nil {
 		panic(err)
 	}
