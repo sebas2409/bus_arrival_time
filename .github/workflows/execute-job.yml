@@ -1,0 +1,28 @@
+name: real-time-bus-arrival-notifications
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - webhook
+
+  schedule:
+    - cron: "30,33,35 07-07 * * 1-5"
+
+  jobs:
+    execute:
+      runs-on: ubuntu:22.04
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: install golang
+          uses: actions/setup-go@v3
+          with:
+            go-version: 1.18
+
+        - name: install dependencies
+          run: go mod download
+
+        - name: build
+          run: go run main.go
