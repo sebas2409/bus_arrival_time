@@ -11,7 +11,7 @@ import (
 const (
 	seleniumPath = "./selenium-server-standalone-3.14.0.jar"
 	port         = 8080
-	chromeDriver = "./chromedriver.exe"
+	chromeDriver = "./chromedriver"
 	busStop      = "3042"
 )
 
