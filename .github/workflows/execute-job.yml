@@ -26,8 +26,5 @@ jobs:
       - name: install dependencies
         run: go mod download
 
-      - name: build
-        run: go build -o main
-
       - name: run
-        run: ./main
+        run: go run main.go
