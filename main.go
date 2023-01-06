@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/tebeka/selenium"
 	"net/http"
 	"strings"
@@ -11,6 +12,7 @@ const (
 	seleniumPath = "./selenium-server-standalone-3.14.0.jar"
 	port         = 8080
 	chromeDriver = "./chromedriver.exe"
+	busStop      = "3042"
 )
 
 type Parada struct {
@@ -32,7 +34,8 @@ func main() {
 	}
 	defer wd.Quit()
 
-	err = wd.Get("https://busmadrid.welbits.com/stop/3042")
+	// Access to the page for the information of the bus stops
+	err = wd.Get(fmt.Sprintf("https://busmadrid.welbits.com/stop/%s", busStop))
 	if err != nil {
 		panic(err)
 	}
@@ -57,6 +60,8 @@ func main() {
 			Destino: rs[3],
 		})
 	}
+
+	//send information to client as push notification
 
 	newJson, _ := json.Marshal(paradas)
 	_, err = http.Post("https://ntfy.sh/information_for_sebas", "application/json", strings.NewReader(string(newJson)))
