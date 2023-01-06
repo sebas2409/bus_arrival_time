@@ -11,7 +11,7 @@ on:
 
 jobs:
   execute:
-    runs-on: ubuntu-16.04
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,15 +22,6 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.18.2
-
-      - name: remove chrome
-        run: sudo apt purge google-chrome-stable
-      #
-      #      - name: remove chromium
-      #        run: sudo apt purge chromium-browser
-      #
-      - name: install chrome
-        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo dpkg -i google-chrome-stable_current_amd64.deb
 
       - name: install dependencies
         run: go mod download
