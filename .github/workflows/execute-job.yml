@@ -1,13 +1,13 @@
 name: real-time-bus-arrival-notifications
 
 on:
-  workflow_dispatch:
-  repository_dispatch:
-    types:
-      - webhook
+  #workflow_dispatch:
+  #repository_dispatch:
+   # types:
+    #  - webhook
 
   schedule:
-    - cron: '27,31,35 07-07 * * 1-5'
+    - cron: '25,31 07-07 * * 1-5'
 
 jobs:
   execute:
