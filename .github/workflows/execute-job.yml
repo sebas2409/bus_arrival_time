@@ -6,8 +6,8 @@ on:
     types:
       - webhook
 
-  schedule:
-    - cron: '12 06-06 * * 1-5'
+  # schedule:
+ # - cron: '12 06-06 * * 1-5'
 
 jobs:
   execute:
